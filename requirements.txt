@@ -1,0 +1,15 @@
+tensorflow
+torch
+torchvision
+torchaudio
+transformers
+datasets
+pandas
+numpy
+scikit-learn
+matplotlib
+jupyter
+seaborn
+opencv-python
+tqdm
+pillow

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Channel Visualizer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        select {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            min-width: 300px;
+        }
+
+        .grid-display {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .channel-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .channel-card h3 {
+            background: #f1f3f5;
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.1em;
+            border-bottom: 1px solid #eee;
+        }
+
+        .channel-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .channel-info {
+            padding: 10px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            color: #999;
+            margin: 50px 0;
+        }
+
+        /* Specific Colors */
+        .card-red h3 {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .card-green h3 {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .card-blue h3 {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        /* Stats Bar */
+        .stat-bar {
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .stat-fill {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📸 Image Channel Visualizer</h1>
+        <div class="controls">
+            <label for="imageSelect">이미지 선택 (Select Image): </label>
+            <select id="imageSelect" onchange="loadImage()">
+                <option value="">이미지를 선택하세요...</option>
+                {% for img in images %}
+                <option value="{{ img }}">{{ img }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="contentArea">
+            <div class="loading">이미지를 선택하면 분석 결과가 여기에 표시됩니다.</div>
+        </div>
+    </div>
+    <script>
+        async function loadImage() {
+            const filename = document.getElementById('imageSelect').value;
+            if (!filename) return;
+            const contentDiv = document.getElementById('contentArea');
+            contentDiv.innerHTML = '<div class="loading">분석 중입니다...</div>';
+            try {
+                // Flask 서버의 /api/analyze/ 엔드포인트로 비동기 요청(Fetch)을 보냄.
+                const response = await fetch(`/api/analyze/${filename}`);
+                const data = await response.json();
+                if (data.error) {
+                    contentDiv.innerHTML = `<div style="color:red; text-align:center;">Error: ${data.error}</div>`;
+                    return;
+                }
+                contentDiv.innerHTML = `
+                    <div class="grid-display">
+                        <div class="channel-card">
+                            <h3>Original Image</h3>
+                            <img src="${data.original}" alt="Original">
+                            <div class="channel-info">Shape: ${data.shape}</div>
+                        </div>                    
+                        <div class="channel-card card-red">
+                            <h3>Red Channel (Intensity)</h3>
+                            <img src="${data.r_channel}" alt="Red Channel">
+                             <div class="channel-info">
+                                Mean: ${data.r_mean.toFixed(1)} <br>
+                                <div class="stat-bar"><div class="stat-fill" style="width: ${data.r_mean / 2.55}%; background: #e53935;"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="channel-card card-green">
+                            <h3>Green Channel (Intensity)</h3>
+                            <img src="${data.g_channel}" alt="Green Channel">
+                            <div class="channel-info">
+                                Mean: ${data.g_mean.toFixed(1)} <br>
+                                <div class="stat-bar"><div class="stat-fill" style="width: ${data.g_mean / 2.55}%; background: #43a047;"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="channel-card card-blue">
+                            <h3>Blue Channel (Intensity)</h3>
+                            <img src="${data.b_channel}" alt="Blue Channel">
+                            <div class="channel-info">
+                                Mean: ${data.b_mean.toFixed(1)} <br>
+                                <div class="stat-bar"><div class="stat-fill" style="width: ${data.b_mean / 2.55}%; background: #1e88e5;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                contentDiv.innerHTML = `<div style="color:red; text-align:center;">Data Load Failed: ${e}</div>`;
+            }
+        }
+    </script>
+</body>
+
+</html>

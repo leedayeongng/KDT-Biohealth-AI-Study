@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커서 이미지</title>
+    <style>
+        html,body{cursor: none;overflow: hidden;margin:0;top:0;}
+        @keyframes blink {
+            0%{transform: scale(1.5);}
+            60%{transform:scale(1.8); opacity: 0.5;}
+            0%{transform:scale(1);}
+        }
+        #cursor_item{animation:blink 0.5s infinite;}
+        #parent_id {position: absolute; left:0; top:0; pointer-events: none;}
+    </style>
+</head>
+<body>
+    <div id="parent_id">
+        <img src="./img/heart.png" id="cursor_item" width="30px" alt="">
+    </div>
+    <script>
+        const cursor = document.getElementById('parent_id');
+        document.addEventListener('mousemove',function(e){
+                cursor.style.transform=`translate(${e.clientX}px,${e.clientY}px)`;
+        });
+    </script>
+</body>
+</html>

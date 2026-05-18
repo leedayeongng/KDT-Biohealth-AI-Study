@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>쿠키 방문 기록</title>
+
+<script>
+// ----------------------------
+// 쿠키 저장
+// ----------------------------
+function setCookie(name, val, expireDate){
+    let cookieStr = name + "=" + val +
+        ((expireDate == null) ? "" : ("; expires=" + expireDate.toUTCString()));
+    document.cookie = cookieStr;    
+}
+
+// ----------------------------
+// 쿠키 가져오기
+// ----------------------------
+function getCookie(name){
+    let pairs = document.cookie.split(";");
+    for(let i = 0; i < pairs.length; i++){
+        let pair = pairs[i].trim(); 
+        let unit = pair.split("=");
+        if(unit[0] == name){
+            return unit[1];
+        }
+    }
+    return null;
+}
+
+// ----------------------------
+// DOM 로딩 후 실행 (핵심)
+// ----------------------------
+document.addEventListener("DOMContentLoaded", function(){
+
+    // 1. 쿠키 읽기
+    let userName = decodeURIComponent(getCookie("userName") || "");
+    let count = parseInt(getCookie("count")) || 0;
+    let expires = new Date();
+
+    // 2. 이름 입력 (엔터 방지)
+    if(!userName){
+        while(true){
+            userName = prompt("이름을 입력하세요 ^^");
+
+            if(userName === null){
+                userName = "익명";
+                break;
+            }
+            if(userName.trim() !== ""){
+                break;
+            }
+            alert("이름을 입력해주세요!");
+        }
+        expires.setTime(expires.getTime() + (365 * 24 * 60 * 60 * 1000));
+        setCookie("userName", encodeURIComponent(userName), expires);
+    }
+    // 3. 방문 횟수 증가
+    count++;
+    // 4. 쿠키 저장
+    expires.setTime(expires.getTime() + (365 * 24 * 60 * 60 * 1000));
+    setCookie("count", count, expires);
+    // 5. 출력
+    document.body.innerHTML = 
+        "<p>어서 오세요 ^^ '" + userName + "' 님의 " 
+        + count + "번째 방문입니다.</p>";
+
+    // 디버깅
+    console.log("쿠키:", document.cookie);
+});
+</script>
+
+</head>
+<body>
+</body>
+</html>

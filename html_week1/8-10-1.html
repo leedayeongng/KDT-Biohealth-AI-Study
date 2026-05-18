@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문서의 동적구성</title>
+    <script>
+        function fn_create(){
+            let newDiv = document.createElement('div');
+            newDiv.setAttribute('class','myDiv');
+            newDiv.innerHTML = '새로운 div';
+            newDiv.style.backgroundColor='yellow';
+            newDiv.style.padding = '10px'
+            newDiv.style.margin = '5px'
+            //newDiv에 자식요소로 버튼(x)만들고
+            //x를 클릭하면 newDive가 삭제! 
+            let btn = document.createElement('button');
+            btn.innerHTML = 'X';
+            console.log(newDiv);
+            //이벤트 리스너에 삭제기능추가
+            btn.onclick = function(){
+                this.parentElement.remove();
+            };
+                newDiv.appendChild(btn);
+                //this <-- new dive
+                //this.parentelement <--부모
+                
+
+                //부모에서 나를 삭제
+            document.body.appendChild(newDiv);
+            }
+                      
+        
+    </script>
+</head>
+<body>
+    <h3>버튼을 누르면 생성됨</h3>
+    <hr>
+    <button type="button" onclick="fn_create();">div 생성</button>
+</body>
+</html>

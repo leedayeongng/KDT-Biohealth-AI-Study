@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다양한 셀렉터</title>
+    <style>
+        /* 태그 이름 셀렉터(동일 태그는 다 적용됨.) */
+        h3, li {color: red;}
+        /* 자식 (>) */
+        div > div > strong {background-color: yellow;}
+        /* 자손 ( ) */
+        #list span{color:forestgreen;}
+        /* class (.) */
+        .warning{color:red;}
+        .main{background-color: aliceblue;}
+        /* id (#) */
+        #list{background-color:mistyrose;}
+        /*가상클래스 (마우스 올렸을때 hover) */
+        li:hover{background-color: yellowgreen}
+        /*가상클래스 (마우스 클릭 active) */
+        li:active{background-color: black;}
+    </style>
+</head>
+<body class="main">
+    <h3>Web programming</h3>
+    <hr>
+    <div>
+        <div>오후 <strong>학습 내용</strong> 입니다.</div>
+        <ul id="list">
+            <li><span>HTML5</span></li>
+            <li><strong>CSS3</strong></li>
+            <li>jAVASCRIOPT</li>
+        </ul>
+        <div class="warning">60점 이하는 F! </div>
+    </div>   
+    
+</body>
+</html>

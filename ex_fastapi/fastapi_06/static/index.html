@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TTS Demo</title>
+</head>
+<body>
+    <h2>🔊 TTS 테스트</h2>
+    <div>
+        <span>Hello, how are you?</span>
+        <button onclick="playTTS(this)">🔊</button>
+    </div>
+    <div>
+        <span>This is another sentence.</span>
+        <button onclick="playTTS(this)">🔊</button>
+    </div>
+    <script>
+        async function playTTS(btn) {
+            const text = btn.previousElementSibling.innerText;
+            const res = await fetch(`/tts?text=${encodeURIComponent(text)}`);
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const audio = new Audio(url);
+            audio.play();
+        }
+    </script>
+
+</body>
+
+</html>

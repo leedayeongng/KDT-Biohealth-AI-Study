@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 추첨!</title>
+    <style>
+        body{text-align: center; margin-top: 50px;}
+        #result{font-size: 24; font-weight: bold; margin-top: 20px;}
+        button{font-size: 18px; padding: 10px 20px; cursor:pointer}
+    </style>
+    <script>
+				const stu = ["권미정","김채현","김현승","박정환","박현주","박호현","서인석","송대영","윤슬아","이다영",
+				             "이종완","이지윤","이채희","이현진","장수열","정수진","천유림","최주용"];
+				 // 배열의 인덱스를 이용하여 추첨하기 클릭시 랜덤하게 학생을 뽑아
+                 //  result에 출력하시오! 
+                 //1.버튼 클릭시 점수호출
+                 //2.함수에서는 랜덤하게 0-stu의 length-1 사이의 랜덤 정수를 뽑기
+                 //3.해당 인덱스의 학생을 result에 출력
+                 
+                 function pickRandom() {
+                    //floor -> 버림
+                    //random()-> 0-1미만 실수
+                    let randomIdx = Math.floor(Math.random()*stu.length);
+                    document.getElementById("result").innerHTML=
+                                        `당첨:${stu[randomIdx]}`;
+                 }
+</script>
+</head>
+<body>
+    <h1>랜덤 추첨기</h1>
+    <button onclick="pickRandom()">추첨하기!</button>
+    <div id="result">결과가 여기에 표시됩니다.
+    </div>
+</body>
+</html>

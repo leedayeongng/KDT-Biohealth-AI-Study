@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 함수</title>
+    <script>
+        fn_ex1(); // 함수 호출
+                 // 선언적 함수는 script 위치어디에서나 사용가능(전역적으로)
+        function fn_ex1(){
+            console.log('선언적 함수!');
+        }
+        //func(); 익명함수는 함수 작성 아래서 사용가능.
+        let func = function(){
+            console.log('익명함수');
+        }
+        func();
+        function fn_ex2(fn){
+            console.log('fn_ex2');
+            console.log(fn);
+            for(let i = 0; i<10 ; i ++){
+                fn();
+            }
+        }
+        fn_ex2(func); //함수를전달;
+        fn_ex2(function() {console.log('익명함수2')});
+
+        let add= function(a,b){
+            return a+b;
+        }
+        console.log(add(2,10));
+        let msg = prompt("계산식을 입력하세요!")
+        let result = eval(msg);
+        document.write('요청하신'+msg+'결과는:'+result+'입니다.')
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

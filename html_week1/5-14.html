@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>transform</title>
+    <style>
+        #ex{position:relative;width:500px;height:150px border:1px, solid}
+        .box{font-size: 12px;position:relative;width: 60px; height: 60px;}
+        #ex:hover .box{transform: rotate(720deg);margin-left: 420px;}
+        #no-delay{transition-duration: 3s;border: 1px solid orange;}
+        #delay{transition-duration: 3s;border: 1px solid blue; transition-delay: 1s;}
+    </style>
+</head>
+<body>
+    <div id="ex">
+        <div id="no-delay" class="box"><p>no-delay</p></div>
+        <dev id="delay" class="box"><p>delay</p></dev>
+    </div>
+    
+</body>
+</html>

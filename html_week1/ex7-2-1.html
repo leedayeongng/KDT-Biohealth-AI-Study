@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>별다줄</title>
+</head>
+<body>
+    <h3>사용자에게 문자를 입력바다 별다줄 해주세요</h3>
+    <hr>
+    <script>
+        //갑자기 분위기 싸함 -> 갑분싸 출력
+        let words=prompt("문장을 입력하세요!", "갑자기 분위기 싸함");
+        let arr = words.split(" ");  // 단어로 분리
+        //1.입력받은 문장에서 단어배열로
+        //2.배열을 순회하며 첫글자_->STR에 더하기 'ABC'[0]
+        //3.출력
+        let str="";
+        for (let i = 0; i < arr.length; i++) {
+               str += arr[i][0];  // 각 단어의 첫 글자
+        }
+        document.write(`${words}의 줄인말은 : <strong>${str}</strong>`);
+    </script>
+    
+</body>
+</html>

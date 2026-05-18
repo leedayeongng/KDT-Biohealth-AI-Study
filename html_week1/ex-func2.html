@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단 퀴즈</title>
+</head>
+<body>
+    <h1>구구단 퀴즈</h1>
+                        <!-- 버튼 클릭시 함수 호출-->
+    <button type="button"onclick="startQuiz()">퀴즈 시작!</button>
+    <script>
+        function startQuiz(){
+            alert("퀴즈 시작!")
+            //Math.random() 0.0 ~1 미만의 랜덤 소수점 난수
+            //Math.floor()소수점 이하 버림
+            const dan = Math.floor(Math.random()*9)+2; //2 ~ 9 정수 리턴
+            const su  = Math.floor(Math.random()*9)+1; //1 ~ 9
+            const question = dan + '*' + su;
+            const userInput = prompt('문제:'+question + "= ?");
+            const result = eval(question);
+            if(result == userInput){
+                alert('정답!')
+            }else{
+                alert('오답');
+            }
+        }
+    </script>
+    
+</body>
+</html>

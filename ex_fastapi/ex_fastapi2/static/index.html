@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS SPA CRUD</title>
+
+    <!-- 💡 [Tailwind 핵심] 별도의 style.css 파일 없이, CDN 스크립트 단 한 줄로 모든 CSS 스타일링 기능을 불러옵니다. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<!-- 💡 기존 CSS: body { background-color: #f3f4f6; color: #333; } -->
+<!-- 💡 Tailwind: bg-gray-50(배경색 밝은 회색), text-gray-900(글자색 진한 회색), antialiased(글꼴 부드럽게) -->
+<body class="bg-gray-50 text-gray-900 antialiased p-4 sm:p-8">
+
+    <!-- 💡 기존 CSS: .container { max-width: 800px; margin: 0 auto; ... } -->
+    <!-- 💡 Tailwind: max-w-3xl(최대 너비지정), mx-auto(가운데 정렬) -->
+    <div class="max-w-3xl mx-auto">
+
+        <!-- 💡 글자 크기(text-3xl), 굵기(font-bold), 여백(mb-6), 색상(text-blue-600) -->
+        <h1 class="text-3xl font-bold mb-6 text-blue-600 flex items-center">
+            <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+            아이템 관리 (Tailwind CSS)
+        </h1>
+
+        <!-- 💡 박스 디자인 (bg-white: 흰색 배경, shadow-md: 그림자, rounded-xl: 둥근 모서리, p-6: 안쪽 여백) -->
+        <div class="bg-white shadow-md rounded-xl p-6 mb-8 border border-gray-100">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700" id="form-title">새 아이템 추가</h3>
+
+            <!-- 💡 그리드 레이아웃 (grid, grid-cols-1, md:grid-cols-2 로 모바일/데스크탑 반응형 자동 적용) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <!-- 입력 필드 스타일링: w-full(너비 100%), border, rounded, focus 스타일 등 -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">ID 번호</label>
+                    <input type="number" id="item-id" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition disabled:bg-gray-100 disabled:text-gray-400" placeholder="예: 1">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">아이템 이름</label>
+                    <input type="text" id="item-name" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition" placeholder="예: 무선 헤드셋">
+                </div>
+                <!-- col-span-2: 두 칸을 통째로 차지하게 만듦 -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">상세 설명</label>
+                    <input type="text" id="item-desc" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none transition" placeholder="설명 (선택사항)">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">가격 (₩)</label>
+                    <input type="number" step="0.01" id="item-price" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none transition" placeholder="예: 55000">
+                </div>
+            </div>
+
+            <!-- 버튼 영역 (flex박스로 간격 띠우기 space-x-3) -->
+            <div class="flex space-x-3">
+                <!-- 💡 버튼 디자인 (bg-blue-600: 파란 바탕, text-white: 흰 글자, hover:bg-blue-700: 마우스 올렸을 때 어두워짐) -->
+                <button id="submit-btn" onclick="submitForm()" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all shadow-sm">
+                    아이템 추가
+                </button>
+                <button id="cancel-btn" onclick="resetForm()" class="hidden bg-gray-500 text-white px-5 py-2 rounded-lg font-medium hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-gray-300 transition-all shadow-sm">
+                    취소
+                </button>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">등록된 아이템 목록</h2>
+
+        <div id="item-list">
+            <!-- app.js의 renderItems() 함수에 의해 이 내부에 동적으로 HTML이 추가됩니다. (Javascript 렌더링 코드 안에도 Tailwind 클래스가 들어있습니다) -->
+        </div>
+
+    </div>
+
+    <!-- 캐시 무력화를 위해 뒤에 v=3를 붙임 -->
+    <script src="app.js?v=3"></script>
+</body>
+</html>

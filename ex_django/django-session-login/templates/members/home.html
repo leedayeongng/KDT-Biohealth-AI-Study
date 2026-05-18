@@ -1,0 +1,25 @@
+﻿{% extends "members/base.html" %}
+{% block content %}
+<section class="grid gap-6 lg:grid-cols-2">
+    <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <h2 class="text-2xl font-semibold">회원가입</h2>
+        <p class="mt-2 text-sm text-slate-300">공통 <code>member</code> 테이블에 저장합니다.</p>
+        <form method="post" action="{% url 'signup' %}" class="mt-6 space-y-4">{% csrf_token %}
+            <input name="username" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3" placeholder="myuser">
+            <input type="password" name="password" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3" placeholder="mypassword">
+            <button class="w-full rounded-2xl bg-sky-400 px-4 py-3 font-semibold text-slate-950">회원가입</button>
+        </form>
+    </div>
+    <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <h2 class="text-2xl font-semibold">세션 로그인</h2>
+        <p class="mt-2 text-sm text-slate-300">세션 유지 시간: 30분, 요청마다 갱신</p>
+        <form method="post" action="{% url 'login' %}" class="mt-6 space-y-4">{% csrf_token %}
+            <input name="username" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3" placeholder="myuser">
+            <input type="password" name="password" class="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3" placeholder="mypassword">
+            <button class="w-full rounded-2xl bg-emerald-400 px-4 py-3 font-semibold text-slate-950">세션 로그인</button>
+        </form>
+        <a href="{% url 'profile' %}" class="mt-4 block rounded-2xl border border-white/10 px-4 py-3 text-center font-semibold">보호 페이지 보기</a>
+        {% if member %}<div class="mt-4 rounded-2xl bg-emerald-500/10 p-4 text-sm text-emerald-200">현재 세션 사용자: <strong>{{ member.username }}</strong></div>{% endif %}
+    </div>
+</section>
+{% endblock %}

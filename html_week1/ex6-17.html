@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테이블</title>
+</head>
+<body>
+    <h3>기본 테이블</h3>
+    <hr>
+    <table border="1">
+        <tbody>
+            <tr>
+                <td>이름</td><td>HTML</td><td>CSS</td>
+            </tr>
+            <tr>
+                <td>펭수</td><td>90</td><td>80</td>
+            </tr>
+            <tr>
+                <td>길동</td><td>80</td><td>80</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+            let num = parseInt(prompt("몇 행?몇 열?"));
+            document.write('<table border="1">');
+                for(let i = 1; i <= num ; i++){
+                    document.write('<tr>');
+                        for(let j = 1; j <= num; j++){
+                            document.write('<td>'+i+','+j+'</td>');
+                        }
+                    document.write('</tr>');
+                }
+            document.write('</table>');
+    </script>
+</body>
+</html>

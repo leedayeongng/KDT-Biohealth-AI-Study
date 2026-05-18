@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 배열</title>
+    <script>
+        /*js배열은 동적배열(크기,타입 자유로움)
+        let arr = [빈배열]
+        let arr=new Array() 빈배열
+        */
+       let arr = [50,5,8,15];
+       console.log(arr[0]); //index로 value에 접근
+       console.log(arr.length) //배열객체의 속성값
+
+       console.log("-----------------------------")
+              for(let i =0;1 < arr.length; i ++){
+            console.log(arr[i]); //배열의 길이만틈
+       }
+       console.log("================================");
+       //for of 문(value 필요할때)
+       for(let v in arr){
+            console.log(v)
+       }
+       console.log("----------------------------")
+       //for in 문(index 필요할때)
+           for(let i in arr){
+            console.log(i,arr[i]);
+       }
+       
+       let arr2=new Array("황","김","이")
+       //배열 메소드
+       let park=["박"];
+       let arr3=arr2.concat(park);//배열결합-->파이선용어로 리스트합치기
+       console.log(arr3)
+       arr3.reverse();
+       console.log('반전',arr3);
+       console.log('배열 to 문자열(결합)',arr.join());
+       console.log('배열 to 문자열(결합)',arr.join('|'));
+       //사용자 입력을 받아 거꾸로 출력하세요
+       //로꾸꺼
+       let word=prompt("단어를 입력하세요>>>","거꾸로");
+       console.log('안녕하세요'.split('')); //텍스트 1칸씩 자름 return //자르고->
+       //반전->결합
+       let str = world.split('').reverse().join(',');
+       document.write('${word}을 거꾸로하면 : ${}
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

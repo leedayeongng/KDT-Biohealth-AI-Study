@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>당점자는 !</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    #roller {
+      font-size: 36px;
+      font-weight: bold;
+      border: 3px solid #444;
+      padding: 20px 40px;
+      display: inline-block;
+      min-width: 200px;
+    }
+    button {
+      margin-top: 30px;
+      padding: 10px 25px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="roller">당첨자!</div>
+  <br>
+  <button onclick="stopRolling()">멈추기</button>
+
+  <script>
+    const names =["권미정","김채현","김현승","박정환","박현주",
+                  "박호현","서인석","송대영","윤슬아","이다영",
+                  "이종완","이지윤","이채희","이현진","장수열",
+                  "정수진","천유림","최주용"];
+    let rollingInterval;
+    let idx = 0;
+    let roller = document.getElementById('roller');
+    function fn_rolling(){
+        rollingInterval = setInterval(function(){
+            roller.textContent=names[idx];
+            //0~배열 끝까지
+            idx=(idx+1) %names.length;
+        },50); 
+    }
+    function stopRolling(){
+        clearInterval(rollingInterval); //멈춤
+        let winner = roller.textContent;
+        alert('당첨자!:'+winner);
+    }
+
+
+    fn_rolling(); //최초실행!
+  </script>
+</body>
+</html>

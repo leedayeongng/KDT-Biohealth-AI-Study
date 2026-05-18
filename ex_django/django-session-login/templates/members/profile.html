@@ -1,0 +1,15 @@
+﻿{% extends "members/base.html" %}
+{% block content %}
+<section class="rounded-3xl border border-white/10 bg-white/5 p-6">
+    <h2 class="text-2xl font-semibold">세션 보호 페이지</h2>
+    <div class="mt-6 rounded-2xl bg-slate-900 p-6">
+        <p class="text-sm text-slate-400">로그인 사용자</p>
+        <p class="mt-2 text-3xl font-bold">{{ member.username }}</p>
+        <p class="mt-4 text-sm text-slate-300">DB row id: {{ member.id }}</p>
+        <p class="mt-1 text-sm text-slate-300">created_at: {{ member.created_at|date:"Y-m-d H:i:s" }}</p>
+    </div>
+    <form method="post" action="{% url 'logout' %}" class="mt-6">{% csrf_token %}
+        <button class="w-full rounded-2xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 font-semibold text-rose-200">세션 로그아웃</button>
+    </form>
+</section>
+{% endblock %}

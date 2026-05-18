@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>애니메이션</title>
+    <style>
+        @keyframes bomb{
+            0% {font-size:100%}
+            50% {font-size:500%}
+            100% {font-size:100%}
+        }
+        @keyframes colorChange {
+            from {color:blue} to {color:red}
+        }
+        p{ animation-name: bomb; animation-duration: 4s;
+            animation-iteration-count:1; }
+        h1{animation: bomb 10s infinite, colorChange 2s infinite}
+    </style>
+</head>
+<body>
+    <p> 1번 </p>
+    <h1> 반복 </h1>
+    
+</body>
+</html>

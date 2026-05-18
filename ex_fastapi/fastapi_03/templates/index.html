@@ -1,0 +1,229 @@
+자주 사용하는 앱에서 바로 AI를 사용해 보세요 … Gemini를 사용하여 초안을 생성하고 콘텐츠를 다듬고, Google의 차세대 AI가 지원되는 Gemini Pro를 이용하세요.
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insight | YouTube Analyzer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bg-mesh {
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-spin-slow {
+            animation: spin 3s linear infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-mesh text-slate-100 min-h-screen p-4 md:p-12">
+    <div class="max-w-6xl mx-auto w-full">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1
+                class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500 mb-4">
+                AI Insight
+            </h1>
+            <p class="text-slate-400 text-lg">유튜브 댓글의 감성과 핵심 키워드를 인공지능이 분석합니다</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="glass rounded-3xl p-6 md:p-8 flex flex-col md:flex-row gap-4 shadow-2xl mb-12">
+            <input type="text" id="youtube-url"
+                class="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-indigo-500 transition-all text-lg"
+                placeholder="유튜브 영상 URL을 입력하세요">
+            <button onclick="analyze()"
+                class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-4 px-8 rounded-xl transition-all transform hover:-translate-y-1 shadow-lg">
+                분석 시작
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="hidden flex-col items-center justify-center py-12">
+            <div class="w-16 h-16 border-4 border-slate-700 border-t-indigo-500 rounded-full animate-spin mb-4"></div>
+            <p class="text-slate-400 animate-pulse">댓글 데이터를 수집하고 AI 모델이 분석 중입니다...</p>
+        </div>
+
+        <!-- Title Display -->
+        <h2 id="title-display" class="hidden text-2xl md:text-3xl font-bold text-center mb-8 text-white"></h2>
+
+        <!-- Results Dashboard -->
+        <div id="dashboard"
+            class="hidden grid grid-cols-1 lg:grid-cols-2 gap-8 transition-opacity duration-500 opacity-0">
+            <!-- Sentiment Card -->
+            <div class="glass rounded-3xl p-8 min-h-[400px]">
+                <h3 class="text-xl font-semibold text-cyan-400 mb-6 flex items-center gap-2">
+                    <span class="w-2 h-8 bg-cyan-400 rounded-full"></span>
+                    Sentiment Analysis
+                </h3>
+                <div class="relative w-full h-[300px]">
+                    <canvas id="sentiment-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- WordCloud Card -->
+            <div class="glass rounded-3xl p-8 min-h-[400px]">
+                <h3 class="text-xl font-semibold text-purple-400 mb-6 flex items-center gap-2">
+                    <span class="w-2 h-8 bg-purple-400 rounded-full"></span>
+                    Word Cloud
+                </h3>
+                <div class="rounded-2xl overflow-hidden border border-slate-700/50">
+                    <img id="wordcloud-img" src="" alt="Wordcloud" class="w-full h-auto">
+                </div>
+            </div>
+
+            <!-- NER Card -->
+            <div class="glass rounded-3xl p-8 lg:col-span-2">
+                <h3 class="text-xl font-semibold text-amber-400 mb-6 flex items-center gap-2">
+                    <span class="w-2 h-8 bg-amber-400 rounded-full"></span>
+                    Top Entities (NER)
+                </h3>
+                <div id="ner-tags" class="flex flex-wrap gap-3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function analyze() {
+            const urlInput = document.getElementById('youtube-url');
+            const url = urlInput.value.trim();
+            if (!url) return alert('유튜브 URL을 입력해주세요.');
+
+            const dashboard = document.getElementById('dashboard');
+            const loading = document.getElementById('loading');
+            const titleDisplay = document.getElementById('title-display');
+
+            // Reset UI
+            dashboard.classList.add('hidden');
+            dashboard.classList.remove('opacity-100');
+            loading.classList.remove('hidden');
+            loading.classList.add('flex');
+            titleDisplay.classList.add('hidden');
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || '분석 중 오류가 발생했습니다.');
+                }
+
+                const data = await response.json();
+                console.log("Analysis Result:", data);
+
+                // Update UI
+                titleDisplay.innerText = `🎥 ${data.title}`;
+                titleDisplay.classList.remove('hidden');
+
+                document.getElementById('wordcloud-img').src = data.wordcloud_url + '?t=' + new Date().getTime();
+
+                // NER Tags
+                const nerContainer = document.getElementById('ner-tags');
+                nerContainer.innerHTML = '';
+                if (data.top_entities && data.top_entities.length > 0) {
+                    data.top_entities.forEach(ent => {
+                        const span = document.createElement('span');
+                        span.className = 'px-4 py-2 bg-indigo-500/20 border border-indigo-500/50 rounded-full text-sm font-medium hover:bg-indigo-500/40 transition-colors cursor-default';
+                        span.innerText = ent;
+                        nerContainer.appendChild(span);
+                    });
+                } else {
+                    nerContainer.innerHTML = '<p class="text-slate-500">추출된 개체명이 없습니다.</p>';
+                }
+
+                // Render Chart
+                renderChart(data.sentiment);
+
+                // Show Dashboard
+                loading.classList.add('hidden');
+                loading.classList.remove('flex');
+                dashboard.classList.remove('hidden');
+                setTimeout(() => dashboard.classList.add('opacity-100'), 50);
+
+            } catch (err) {
+                alert('에러: ' + err.message);
+                loading.classList.add('hidden');
+            }
+        }
+
+        let chartInstance = null;
+        function renderChart(sentiment) {
+            const ctx = document.getElementById('sentiment-chart').getContext('2d');
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Positive', 'Negative'],
+                    datasets: [{
+                        data: [sentiment.positive, sentiment.negative],
+                        backgroundColor: ['#22d3ee', '#f43f5e'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { family: 'Outfit', size: 14 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { family: 'Outfit' },
+                            bodyFont: { family: 'Outfit' },
+                            padding: 12,
+                            displayColors: false
+                        }
+                    },
+                    cutout: '70%',
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

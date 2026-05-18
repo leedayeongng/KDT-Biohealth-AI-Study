@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 변수</title>
+    <script>
+        //문자열,숫자.. 모든 자료형을 저장할수 있음.
+        let nm = '갈등'; //변수
+        console.log(nm, typeof(nm));
+        const PI = 3.14; //상수
+        //PI = 1; //오류,상수 변경 안됨.
+        nm = prompt('이름을 입력하세요^^');
+        //true or false 리턴
+        if(confirm(nm+'님 맞으신가요!?')){
+           document.write('<h1>'+nm+'님 반갑습니다. </h1>');
+        }else{
+            document.write('<hi>아무개님 반갑습니다.</h1>');
+        }
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

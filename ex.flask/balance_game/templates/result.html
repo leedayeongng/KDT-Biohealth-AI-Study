@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>밸런스 게임 - 결과 분석</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e293b;
+            margin-bottom: 30px;
+        }
+
+        .result-card {
+            background: #f1f5f9;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .best {
+            border-top: 5px solid #10b981;
+        }
+
+        .worst {
+            border-top: 5px solid #ef4444;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #475569;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0f172a;
+            margin: 10px 0;
+        }
+
+        .score {
+            font-size: 18px;
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        .badge {
+            background: #4F46E5;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .best .badge {
+            background: #10b981;
+        }
+
+        .worst .badge {
+            background: #ef4444;
+        }
+
+        .btn-home {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #475569;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-home:hover {
+            background-color: #334155;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>✨ {{ user.username }}님의 궁합 결과 ✨</h1>
+
+        {% if not_enough_users %}
+        <div class="result-card" style="border-top: 5px solid #f59e0b;">
+            <h2>아직 데이터가 부족해요! 😢</h2>
+            <p>다른 친구들이 게임을 플레이해야 궁합을 계산할 수 있어요.<br>친구들을 초대해주세요!</p>
+        </div>
+        {% else %}
+        <p style="color: #64748b; margin-bottom: 30px;">
+            학생이 작성한 <b>game_logic.py</b> 알고리즘을 통해 계산된 결과입니다.
+        </p>
+
+        <div class="result-card best">
+            <h2>나와 가장 <span style="color:#10b981;">성향이 비슷한</span> 친구 🤝</h2>
+            <div class="name">{{ top.name }} <span class="badge">BEST</span></div>
+            <div class="score">유사도: {{ top.score }}% 일치</div>
+        </div>
+
+        <div class="result-card worst">
+            <h2>나와 가장 <span style="color:#ef4444;">성향이 반대인</span> 친구 💔</h2>
+            <div class="name">{{ bottom.name }} <span class="badge">WORST</span></div>
+            <div class="score">유사도: {{ bottom.score }}% 일치</div>
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="btn-home">처음으로 돌아가기 (로그아웃)</a>
+    </div>
+</body>
+
+</html>

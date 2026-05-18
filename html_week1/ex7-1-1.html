@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>화면에 시간 출력</title>
+</head>
+<body>
+    <script>
+        function fn_time(){
+            let now = new Date();
+            document.body.innerHTML = now;
+        }
+        //(함수,밀리초) 해당 함수를 입력 밀리초마다 호출
+        setInterval(fn_time,1000);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>로컬 스토리지</title>
+</head>
+
+<body>
+<h3>LocalStorage (브라우저 종료 후에도 유지)</h3>
+<hr>
+
+item : <input type="text" id="item">
+value: <input type="text" id="val">
+
+<button onclick="fn_save()">저장</button>
+<button onclick="fn_search()">찾기</button>
+<button onclick="fn_delete()">삭제</button>
+<button onclick="fn_all()">전체보기</button>
+
+<hr>
+<div id="result"></div>
+
+<script>
+// ----------------------------
+// 저장
+// ----------------------------
+function fn_save(){
+    let item = document.getElementById("item").value.trim();
+    let val = document.getElementById("val").value.trim();
+
+    if(item === "" || val === ""){
+        alert("item / value 모두 입력하세요!");
+        return;
+    }
+
+    // 기존 값 확인
+    if(localStorage.getItem(item) !== null){
+        if(!confirm("이미 존재하는 key입니다. 덮어쓸까요?")){
+            return;
+        }
+    }
+
+    localStorage.setItem(item, val);
+
+    document.getElementById("result").innerHTML =
+        "저장 완료 → key: " + item + " / value: " + val;
+
+    document.getElementById("item").value = "";
+    document.getElementById("val").value = "";
+}
+
+// ----------------------------
+// 조회
+// ----------------------------
+function fn_search(){
+    let item = document.getElementById("item").value.trim();
+    let val = localStorage.getItem(item);
+
+    let str = "";
+
+    if(val === null){
+        str = "❌ 해당 key 없음";
+    }else{
+        str = "✅ key: " + item + " / value: " + val;
+    }
+
+    document.getElementById("result").innerHTML = str;
+    document.getElementById("item").value = "";
+}
+
+// ----------------------------
+// 삭제
+// ----------------------------
+function fn_delete(){
+    let item = document.getElementById("item").value.trim();
+
+    if(localStorage.getItem(item) === null){
+        alert("삭제할 데이터 없음");
+        return;
+    }
+
+    localStorage.removeItem(item);
+
+    document.getElementById("result").innerHTML =
+        "🗑 삭제 완료 → " + item;
+
+    document.getElementById("item").value = "";
+}
+
+// ----------------------------
+// 전체 조회
+// ----------------------------
+function fn_all(){
+    let str = "<h4>전체 데이터</h4>";
+
+    if(localStorage.length === 0){
+        str += "데이터 없음";
+    }else{
+        for(let i = 0; i < localStorage.length; i++){
+            let key = localStorage.key(i);
+            let val = localStorage.getItem(key);
+
+            str += "key: " + key + " / value: " + val + "<br>";
+        }
+    }
+
+    document.getElementById("result").innerHTML = str;
+}
+</script>
+
+</body>
+</html>

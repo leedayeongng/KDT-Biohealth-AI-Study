@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트와 이벤트 객체</title>
+    <script>
+        function fn_init(){
+            let p = document.getElementById('p_id');
+            //이벤트리스너 프로퍼티에 등록
+           p.onmouseover=fn_msg; //첫번째매개변수는무조건event
+           p.onmousemove=fn_msg;
+        }
+        function fn_msg(e){
+            console.log(e);
+            let view = document.getElementById('view')
+            //screenX,Y 사용자 화면전체에서
+            //offsetX,Y 이벤트발생요소(element)기준 좌표
+            let str= `screenX,Y = ${e.screenX},${e.screenY} <br>`;
+                str += `offsetX,Y= ${e.offsetX},${e.offsetY} <br>`;
+            view.innerHTML = str;
+        }
+        //이벤트 리스너 addEventListener를 이용한 등록
+        document.addEventListener('contextmenu',function(event){
+            event.preventDefault(); //디폴트행동멈춤
+        });
+        function fn_check(){
+            return confirm("이동?!?");
+        }
+
+    </script>
+</head>
+<!--onload:dom객체를 다만들었을때-->
+<body onload="fn_init()">
+    <p id="p_id">마우스를 올려보세요!</p>
+    <!-- 엘리먼드에 이벤트 리스너 등록-->
+    <button type="button" onclick="fn_msg(event)">클릭!</button>
+    <div id="view" style="width: 200px;"></div>
+    <!--a tag 디폴트 행동은 이동 -> return false 행동 취소됨 -->
+    <a href="https://www.naver.com" onclick="return false">네이버이동</a>
+    <a href="https://www.naver.com" onclick="return fn_check()">네이버 이동</a>
+</body>
+</html>

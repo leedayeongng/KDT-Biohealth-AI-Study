@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>날짜 객체</title>
+    <script>
+        //모든 객체는 속성과 메소드(함수)가 있음.
+        let now = new Date(); //현재시간
+        console.log(now);
+        console.log(now.getDate()); //일
+        console.log(now.getMonth()); //월(0부터 시작)
+        console.log(now.getFullYear());
+        console.log("UTC:" ,now.toUTCString());
+        console.log("getTIime:",now.getTime());
+        //1970.1.1 00:00:00 현재까지 시간 밀리초
+        console.log("getTime:",now.getTime());
+
+        let startDate = prompt("시작 기념일 입력!","2026-01-14")
+        let userDate = new Date(startDate); //입력 날짜 객체 생성
+        let now_time = now.getTime();
+        let user_time = userDate.getTime();
+        console.log('현재:',now_time);
+        console.log('사용자:',user_time);
+
+        let secTime = now_time - user_time;
+        //시간 * 분 * 초 * 밀리초 -> 일
+        // ceil:올림, floor:버림, round:반올림
+        let day = Math.ceil(secTime/(24*60*60*1000));
+        alert(day + '지남');
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

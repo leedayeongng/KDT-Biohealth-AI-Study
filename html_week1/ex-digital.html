@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디지털 시계</title>
+    <style>
+        *{text-align: center; position: relative; top:50px}
+        body{background-color:black;}
+        #date{font-size:30px;color:blue;}
+        #time{font-size:40px;color:purple;}
+        h3{
+            color:whitesmoke;
+        }
+    </style>
+</head>
+<body>
+    <h3>메인화면</h3>
+    <div id="time">16:26:01</div>
+    <div id="date">2026년 01월 14일</div>
+    <script>
+        function fn_pad(p_val){
+            return String(p_val).padStart(2,'0');
+        }
+        function fn_setClock()
+            let now = new Date();
+            let hour = now.getHours();
+            let min = now.getMinutes();
+            let sec = now.getSeconds();
+
+            let year=now.getFullYear();
+            let month = now.getMonth() +1;
+            let date = now.getDate();
+            document.getElementById('date').innerHTML=`${year}년 ${month}월 ${date}`;
+            document.getElementById('time').innerHTML=${hour}:${min}:${sec}`;
+            //예시
+            document.getElementById('date').innerHTML = now.toString();
+            //id:date에는 YYYY년 MM월 DD형식으로
+            //id:time에는 HH:MM:DD 형식으로 출력하시오!
+        }
+        fn_secClock();//최초호출
+        setInterval(fn_setClock,1000); // 1초 뒤 반복적으로
+    </script>
+    
+</body>
+</html>
